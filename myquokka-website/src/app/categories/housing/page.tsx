@@ -7,7 +7,10 @@ export default function HousingPage() {
   return (
     <>
       <Header />
-      <div className="container mx-auto py-8 px-4 max-w-7xl">
+      <div className="container mx-auto py-8 px-4 max-w-7xl" style={{
+        backgroundColor: '#F5F5F7',
+        color: '#1A1A1A',
+      }}>
         <h1 className="text-3xl font-bold mb-6 text-center">주거 및 공과금 관리</h1>
         
         <div className="mb-10">

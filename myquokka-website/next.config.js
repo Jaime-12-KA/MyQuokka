@@ -7,6 +7,10 @@ const nextConfig = {
   },
   trailingSlash: true,
   assetPrefix: '/MyQuokka',
+  // 실험적 기능만 유지
+  experimental: {
+    optimizeCss: true,
+  },
 };
 
 module.exports = nextConfig;
