@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #7B4AFF;
+  --primary-light: rgba(123, 74, 255, 0.1);
+  --neutral-1: #F5F5F7;
+  --neutral-2: #DDDDDD;
+  --neutral-3: #666666;
+  --neutral-4: #1A1A1A;
+  --card-radius: 20px;
+  --section-spacing: 60px;
+  --card-spacing: 24px;
+}
+
+body {
+  background-color: var(--neutral-1);
+  color: var(--neutral-4);
+}
+
+@layer components {
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-white font-semibold py-2 px-6 rounded-full hover:opacity-90 transition-opacity;
+  }
+  
+  .btn-outline {
+    @apply border-2 border-primary text-primary font-semibold py-2 px-6 rounded-full hover:bg-primary-light transition-colors;
+  }
+  
+  .card {
+    @apply bg-white rounded-card p-6 shadow-md hover:shadow-lg transition-shadow;
+  }
+  
+  .section-title {
+    @apply text-3xl font-bold text-center mb-4;
+  }
+  
+  .section-subtitle {
+    @apply text-lg text-neutral-3 text-center max-w-3xl mx-auto mb-12;
+  }
+} 
