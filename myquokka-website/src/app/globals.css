@@ -3,20 +3,20 @@
 @tailwind utilities;
 
 :root {
-  --primary: #7B4AFF;
-  --primary-light: rgba(123, 74, 255, 0.1);
-  --neutral-1: #F5F5F7;
-  --neutral-2: #DDDDDD;
-  --neutral-3: #666666;
-  --neutral-4: #1A1A1A;
-  --card-radius: 20px;
-  --section-spacing: 60px;
-  --card-spacing: 24px;
+  --primary: #7B4AFF !important;
+  --primary-light: rgba(123, 74, 255, 0.1) !important;
+  --neutral-1: #F5F5F7 !important;
+  --neutral-2: #DDDDDD !important;
+  --neutral-3: #666666 !important;
+  --neutral-4: #1A1A1A !important;
+  --card-radius: 20px !important;
+  --section-spacing: 60px !important;
+  --card-spacing: 24px !important;
 }
 
 body {
-  background-color: var(--neutral-1);
-  color: var(--neutral-4);
+  background-color: var(--neutral-1) !important;
+  color: var(--neutral-4) !important;
 }
 
 @layer components {
@@ -42,5 +42,65 @@ body {
   
   .section-subtitle {
     @apply text-lg text-neutral-3 text-center max-w-3xl mx-auto mb-12;
+  }
+  
+  .rounded-card {
+    border-radius: var(--card-radius) !important;
+  }
+  
+  .bg-primary {
+    background-color: var(--primary) !important;
+  }
+  
+  .text-primary {
+    color: var(--primary) !important;
+  }
+  
+  .bg-primary-light {
+    background-color: var(--primary-light) !important;
+  }
+  
+  .text-neutral-1 {
+    color: var(--neutral-1) !important;
+  }
+  
+  .text-neutral-2 {
+    color: var(--neutral-2) !important;
+  }
+  
+  .text-neutral-3 {
+    color: var(--neutral-3) !important;
+  }
+  
+  .text-neutral-4 {
+    color: var(--neutral-4) !important;
+  }
+  
+  .bg-neutral-1 {
+    background-color: var(--neutral-1) !important;
+  }
+  
+  .bg-neutral-2 {
+    background-color: var(--neutral-2) !important;
+  }
+  
+  .bg-neutral-3 {
+    background-color: var(--neutral-3) !important;
+  }
+  
+  .bg-neutral-4 {
+    background-color: var(--neutral-4) !important;
+  }
+  
+  .border-neutral-2 {
+    border-color: var(--neutral-2) !important;
+  }
+  
+  .border-neutral-3 {
+    border-color: var(--neutral-3) !important;
+  }
+  
+  .border-primary {
+    border-color: var(--primary) !important;
   }
 } 
