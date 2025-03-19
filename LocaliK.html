@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LocaliK 사업계획 및 분석 리포트</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* 사용자 정의 스타일 */
+    :root {
+      --primary-color: #2563eb;
+      --primary-dark-color: #1d4ed8;
+      --secondary-color: #4b5563;
+      --accent-color: #10b981;
+      --light-bg: #f9fafb;
+      --dark-bg: #1f2937;
+      --light-text: #f9fafb;
+      --dark-text: #1f2937;
+      --card-light: #ffffff;
+      --card-dark: #374151;
+      --border-light: #e5e7eb;
+      --border-dark: #4b5563;
+    }
+
+    /* 다크 모드 감지 */
+    @media (prefers-color-scheme: dark) {
+      .dark-mode-auto {
+        --bg-color: var(--dark-bg);
+        --text-color: var(--light-text);
+        --card-bg: var(--card-dark);
+        --border-color: var(--border-dark);
+      }
+    }
+
+    @media (prefers-color-scheme: light) {
+      .dark-mode-auto {
+        --bg-color: var(--light-bg);
+        --text-color: var(--dark-text);
+        --card-bg: var(--card-light);
+        --border-color: var(--border-light);
+      }
+    }
+
+    /* 라이트 모드 */
+    .light-mode {
+      --bg-color: var(--light-bg);
+      --text-color: var(--dark-text);
+      --card-bg: var(--card-light);
+      --border-color: var(--border-light);
+    }
+
+    /* 다크 모드 */
+    .dark-mode {
+      --bg-color: var(--dark-bg);
+      --text-color: var(--light-text);
+      --card-bg: var(--card-dark);
+      --border-color: var(--border-dark);
+    }
+
+    body {
+      font-family: 'Noto Sans KR', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .menu-item {
+      transition: border-left 0.3s, padding-left 0.3s, color 0.3s;
+      border-left: 3px solid transparent;
+      cursor: pointer;
+      padding-left: 1rem;
+    }
+
+    .menu-item.active {
+      border-left: 3px solid var(--primary-color);
+      color: var(--primary-color);
+      font-weight: 600;
+      padding-left: 1.25rem;
+    }
+
+    .menu-item:hover {
+      color: var(--primary-color);
+    }
+
+    .section {
+      scroll-margin-top: 80px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s, transform 0.5s;
+    }
+
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-dark-color);
+      transform: scale(1.05);
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid var(--border-color);
+      padding: 0.75rem;
+      text-align: left;
+    }
+
+    th {
+      background-color: rgba(37, 99, 235, 0.1);
+    }
+
+    .progress-bar {
+      height: 8px;
+      width: 100%;
+      background-color: #e5e7eb;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background-color: var(--primary-color);
+      border-radius: 4px;
+      transition: width 1s ease-in-out;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 9999px;
+    }
+
+    .badge-blue {
+      background-color: rgba(37, 99, 235, 0.1);
+      color: var(--primary-color);
+    }
+
+    .badge-green {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--accent-color);
+    }
+
+    .badge-gray {
+      background-color: rgba(75, 85, 99, 0.1);
+      color: var(--secondary-color);
+    }
+
+    .kpi-card {
+      border-left: 4px solid var(--primary-color);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    /* 미디어 쿼리 - 모바일 우선 */
+    @media (min-width: 768px) {
+      .menu-container {
+        position: sticky;
+        top: 80px;
+      }
+    }
+  </style>
+</head>
+<body class="dark-mode-auto">
+  <!-- 헤더 -->
+  <header class="sticky top-0 z-50 bg-opacity-90 backdrop-filter backdrop-blur-lg" style="background-color: var(--bg-color);">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-green-400 flex items-center justify-center text-white font-bold text-lg">L</div>
+        <h1 class="text-xl font-bold">LocaliK</h1>
+      </div>
+      <div class="flex space-x-4 items-center">
+        <button id="darkModeToggle" class="p-2 rounded-full hover:bg-opacity-20 hover:bg-gray-500 transition-all">
+          <i class="fas fa-moon dark:hidden"></i>
+          <i class="fas fa-sun hidden dark:block"></i>
+        </button>
+        <a href="#" class="btn-primary py-2 px-4 rounded-lg text-sm font-medium hidden md:block">
+          <i class="fas fa-download mr-2"></i>PDF 다운로드
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 메인 콘텐츠 -->
+  <main class="container mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row">
+      <!-- 사이드바 네비게이션 -->
+      <aside class="md:w-64 mb-8 md:mb-0 md:mr-8">
+        <div class="menu-container space-y-1">
+          <div class="menu-item active" data-target="exec-summary">핵심 요약</div>
+          <div class="menu-item" data-target="company-intro">회사 소개 및 비전</div>
+          <div class="menu-item" data-target="market-analysis">시장 분석</div>
+          <div class="menu-item" data-target="service-model">서비스 모델 및 차별화</div>
+          <div class="menu-item" data-target="customer-segments">고객 세분화 및 타겟팅</div>
+          <div class="menu-item" data-target="revenue-model">수익 모델 및 재무 계획</div>
+          <div class="menu-item" data-target="marketing">마케팅 및 성장 전략</div>
+          <div class="menu-item" data-target="tech-dev">기술 개발 및 운영 계획</div>
+          <div class="menu-item" data-target="execution">실행 계획 및 마일스톤</div>
+          <div class="menu-item" data-target="risk-analysis">리스크 분석 및 대응 전략</div>
+          <div class="menu-item" data-target="conclusion">결론 및 전략적 방향성</div>
+        </div>
+      </aside>
+
+      <!-- 주요 콘텐츠 영역 -->
+      <div class="flex-1">
+        <!-- 표지 섹션 -->
+        <section class="mb-16 text-center py-10">
+          <div class="inline-block p-2 rounded-lg bg-gradient-to-r from-blue-500 to-green-400 text-white mb-6">
+            <i class="fas fa-globe-asia text-4xl"></i>
+          </div>
+          <h1 class="text-4xl font-bold mb-4">LocaliK 사업계획 및 분석 리포트</h1>
+          <p class="text-xl mb-8">AI 기반 외국인-현지인 매칭 플랫폼</p>
+          <div class="w-32 h-1 bg-gradient-to-r from-blue-500 to-green-400 mx-auto"></div>
+        </section>
+
+        <!-- 핵심 요약 섹션 -->
+        <section id="exec-summary" class="section mb-16">
+          <h2 class="text-2xl font-bold mb-6 flex items-center">
+            <i class="fas fa-file-alt mr-3 text-blue-500"></i>핵심 요약 (Executive Summary)
+          </h2>
+          <div class="card rounded-xl p-6 mb-6">
+            <p class="mb-4">
+              <strong>LocaliK(로컬릭)</strong>은 한국에 거주하거나 방문하는 외국인과 도움을 제공할 수 있는 현지인을 AI 번역 기술을 활용하여 연결하는 혁신적인 매칭 플랫폼입니다. 본 사업은 검증된 시장 수요(한국 내 외국인 거주자 210만명, 연간 방문객 1,700만명)를 바탕으로, 언어 및 문화적 장벽으로 인한 외국인의 어려움을 해결하고자 합니다.
+            </p>
+            <p class="mb-4">
+              기존의 직접 서비스 제공 모델과 달리, LocaliK은 <strong class="text-blue-600 dark:text-blue-400">플랫폼 기반 매칭 모델</strong>을 채택하여 낮은 운영 비용과 높은 확장성을 실현합니다. AI 번역 기술을 통해 언어 장벽을 낮추면서도, 현지인만이 제공할 수 있는 문화적 맥락, 암묵지, 인적 네트워크의 가치를 결합한 서비스를 제공합니다.
+            </p>
+          </div>
+
+          <h3 class="text-xl font-semibold mb-4">핵심 차별점</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            <div class="card rounded-lg p-5 flex flex-col">
+              <div class="mb-3 text-blue-500">
+                <i class="fas fa-language text-2xl"></i>
+              </div>
+              <h4 class="font-semibold mb-2">AI 통번역 기술 활용</h4>
+              <p class="text-sm">실시간 소통 지원으로 언어 장벽 해소</p>
+            </div>
+            <div class="card rounded-lg p-5 flex flex-col">
+              <div class="mb-3 text-blue-500">
+                <i class="fas fa-users text-2xl"></i>
+              </div>
+              <h4 class="font-semibold mb-2">현지인의 문화적 가치 극대화</h4>
+              <p class="text-sm">AI가 대체할 수 없는 인간 중심 서비스</p>
+            </div>
+            <div class="card rounded-lg p-5 flex flex-col">
+              <div class="mb-3 text-blue-500">
+                <i class="fas fa-sitemap text-2xl"></i>
+              </div>
+              <h4 class="font-semibold mb-2">플랫폼 비즈니스 모델</h4>
+              <p class="text-sm">낮은 초기 투자, 높은 확장성</p>
+            </div>
+            <div class="card rounded-lg p-5 flex flex-col">
+              <div class="mb-3 text-blue-500">
+                <i class="fas fa-puzzle-piece text-2xl"></i>
+              </div>
+              <h4 class="font-semibold mb-2">맞춤형 매칭 알고리즘</h4>
+              <p class="text-sm">외국인의 니즈와 현지인의 강점 최적 연결</p>
+            </div>
+            <div class="card rounded-lg p-5 flex flex-col">
+              <div class="mb-3 text-blue-500">
+                <i class="fas fa-chart-line text-2xl"></i>
+              </div>
+              <h4 class="font-semibold mb-2">단계적 접근법</h4>
+              <p class="text-sm">소규모 시작, 검증 후 확장</p>
+            </div>
+          </div>
+
+          <p class="bg-blue-50 dark:bg-blue-900 dark:bg-opacity-20 p-4 rounded-lg">
+            본 사업은 초기에 소자본(1,000만원 이하)으로 시작하여 본업을 유지하면서 부업으로 진행하며, 검증 후 단계적으로 확장해나가는 전략을 채택합니다. 18-24개월 내에 월 수익 1,000만원 이상을 목표로 하며, 이 시점에서 본업 전환을 검토할 계획입니다.
+          </p>
+        </section>
+
+        <!-- 회사 소개 및 비전 섹션 -->
+        <section id="company-intro" class="section mb-16">
+          <h2 class="text-2xl font-bold mb-6 flex items-center">
+            <i class="fas fa-building mr-3 text-blue-500"></i>회사 소개 및 비전
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="card rounded-lg overflow-hidden">
+              <div class="bg-blue-500 text-white p-3">
+                <h3 class="font-semibold">창업자 배경</h3>
+              </div>
+              <div class="p-4">
+                <ul class="space-y-2">
+                  <li class="flex items-start">
+                    <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                    <span>8년 이상의 전문 한국어-영어 통번역 경험 보유</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                    <span>글로벌 은행 IT 프로젝트 근무 중 (사업 초기 유지 예정)</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                    <span>한국에서 외국인 지원 경험 다수</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                    <span>IT, AI, 심층 조사, 문화 다양성, 비즈니스 영역에 관심과 역량 보유</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="card rounded-lg overflow-hidden">
+              <div class="bg-blue-500 text-white p-3">
+                <h3 class="font-semibold">회사 비전 및 미션</h3>
+              </div>
+              <div class="p-4">
+                <div class="mb-4">
+                  <h4 class="font-medium text-blue-600 dark:text-blue-400 mb-2">비전</h4>
+                  <p>AI 기술을 활용하여 언어와 문화의 장벽을 넘어 외국인과 현지인을 연결하는 플랫폼으로 성장</p>
+                </div>
+                <div>
+                  <h4 class="font-medium text-blue-600 dark:text-blue-400 mb-2">미션</h4>
+                  <p>한국에서 생활하거나 방문하는 외국인에게 현지인의 맞춤형 도움을 제공하여 더 풍부하고 원활한 경험을 지원</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card rounded-lg overflow-hidden">
+              <div class="bg-blue-500 text-white p-3">
+                <h3 class="font-semibold">사업 접근법</h3>
+              </div>
+              <div class="p-4">
+                <ul class="space-y-2">
+                  <li class="flex items-start">
+                    <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                    <span><strong>소자본 창업:</strong> 1,000만원 이하 초기 투자로 위험 최소화</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                    <span><strong>점진적 성장:</strong> 본업 유지하며 부업으로 시작, 검증 후 확장</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                    <span><strong>기술 활용:</strong> AI 번역 및 노코드 개발 도구를 통한 비용 효율적 접근</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                    <span><strong>커뮤니티 중심:</strong> 활발한 사용자 커뮤니티 구축을 통한 선순환 생태계 조성</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                    <span><strong>검증 기반:</strong> 소규모 테스트, 피드백 수집, 빠른 개선의 순환적 접근</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 시장 분석 섹션 -->
+        <section id="market-analysis" class="section mb-16">
+          <h2 class="text-2xl font-bold mb-6 flex items-center">
+            <i class="fas fa-chart-pie mr-3 text-blue-500"></i>시장 분석
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="card rounded-lg p-6">
+              <h3 class="text-xl font-semibold mb-4">시장 규모 및 성장성</h3>
+              <div class="flex items-center mb-4">
+                <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
+                  <i class="fas fa-users text-blue-500 text-2xl"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium">외국인 거주자</h4>
+                  <p class="text-lg"><span class="font-bold">210만명</span> (2024년 기준)</p>
+                  <p class="text-sm">2025년 <span class="font-bold">265만명</span> 예상 (연간 약 25% 성장)</p>
+                </div>
+              </div>
+
+              <div class="flex items-center mb-4">
+                <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
+                  <i class="fas fa-plane-arrival text-blue-500 text-2xl"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium">방문 외국인</h4>
+                  <p class="text-lg"><span class="font-bold">연간 1,700만명</span> (2024년)</p>
+                  <p class="text-sm">2025년 <span class="font-bold">2,000만명</span> 예상</p>
+                </div>
+              </div>
+
+              <div class="flex items-center">
+                <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
+                  <i class="fas fa-percentage text-blue-500 text-2xl"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium">시장 성장률</h4>
+                  <p>외국인 대상 서비스 시장 <span class="font-bold">연간 3~5% 성장세</span></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 두 번째 컬럼: 수익화 및 확장 단계 (타임라인 형식) -->
+            <div class="card rounded-lg p-6">
+              <h3 class="text-xl font-semibold mb-4">수익화 및 확장 단계</h3>
+              <div class="space-y-8">
+                <!-- 타임라인 단계 1 -->
+                <div class="flex items-start">
+                  <div class="flex-shrink-0 w-14 h-14 rounded-full bg-blue-500 text-white flex items-center justify-center">
+                    <i class="fas fa-dot-circle text-xl"></i>
+                  </div>
+                  <div class="ml-6">
+                    <h4 class="text-lg font-semibold mb-2">초기 수익화 단계 (6-12개월)</h4>
+                    <div class="card p-4 rounded-lg">
+                      <ul class="space-y-2">
+                        <li class="flex items-start">
+                          <i class="fas fa-dot-circle text-blue-500 mt-1 mr-2"></i>
+                          <span>검증된 기본 수익 모델 도입</span>
+                        </li>
+                        <li class="flex items-start">
+                          <i class="fas fa-dot-circle text-blue-500 mt-1 mr-2"></i>
+                          <span>거래 수수료 시스템 구축</span>
+                        </li>
+                        <li class="flex items-start">
+                          <i class="fas fa-dot-circle text-blue-500 mt-1 mr-2"></i>
+                          <span>프로필 강화 옵션 및 구독 모델 시작</span>
+                        </li>
+                        <li class="flex items-start">
+                          <i class="fas fa-dot-circle text-blue-500 mt-1 mr-2"></i>
+                          <span>사용자 기반 확대 (시커 1,000명, 헬퍼 300명)</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- 타임라인 단계 2 -->
+                <div class="flex items-start">
+                  <div class="flex-shrink-0 w-14 h-14 rounded-full bg-blue-500 text-white flex items-center justify-center">
+                    <i class="fas fa-expand-arrows-alt text-xl"></i>
+                  </div>
+                  <div class="ml-6">
+                    <h4 class="text-lg font-semibold mb-2">확장 단계 (12-18개월)</h4>
+                    <div class="card p-4 rounded-lg">
+                      <ul class="space-y-2">
+                        <li class="flex items-start">
+                          <i class="fas fa-dot-circle text-blue-500 mt-1 mr-2"></i>
+                          <span>종합 수익 모델 구축</span>
+                        </li>
+                        <li class="flex items-start">
+                          <i class="fas fa-dot-circle text-blue-500 mt-1 mr-2"></i>
+                          <span>서울 전역으로 서비스 확대</span>
+                        </li>
+                        <li class="flex items-start">
+                          <i class="fas fa-dot-circle text-blue-500 mt-1 mr-2"></i>
+                          <span>모바일 최적화 웹앱 및 고급 기능 개발</span>
+                        </li>
+                        <li class="flex items-start">
+                          <i class="fas fa-dot-circle text-blue-500 mt-1 mr-2"></i>
+                          <span>첫 B2B 파트너십 구축</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- 타임라인 단계 3 -->
+                <div class="flex items-start">
+                  <div class="flex-shrink-0 w-14 h-14 rounded-full bg-blue-500 text-white flex items-center justify-center">
+                    <i class="fas fa-chart-line text-xl"></i>
+                  </div>
+                  <div class="ml-6">
+                    <h4 class="text-lg font-semibold mb-2">안정화 및 성장 단계 (18-24개월)</h4>
+                    <div class="card p-4 rounded-lg">
+                      <ul class="space-y-2">
+                        <li class="flex items-start">
+                          <i class="fas fa-dot-circle text-blue-500 mt-1 mr-2"></i>
+                          <span>완전한 수익 시스템 운영</span>
+                        </li>
+                        <li class="flex items-start">
+                          <i class="fas fa-dot-circle text-blue-500 mt-1 mr-2"></i>
+                          <span>주요 도시로 서비스 확대</span>
+                        </li>
+                        <li class="flex items-start">
+                          <i class="fas fa-dot-circle text-blue-500 mt-1 mr-2"></i>
+                          <span>첫 직원 채용 고려</span>
+                        </li>
+                        <li class="flex items-start">
+                          <i class="fas fa-dot-circle text-blue-500 mt-1 mr-2"></i>
+                          <span>본업 전환 가능성 검토</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 외국인의 한국 생활 관련 문제점 카드 -->
+          <div class="card rounded-lg p-6 mb-8">
+            <h3 class="text-xl font-semibold mb-4">외국인의 한국 생활 관련 문제점</h3>
+            <div class="mb-4">
+              <div class="flex justify-between mb-1">
+                <span class="font-medium">언어 장벽</span>
+                <span class="font-medium">43.4%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress" style="width: 43.4%"></div>
+              </div>
+              <p class="text-sm mt-1">외국인이 언어를 주요 어려움으로 언급</p>
+            </div>
+
+            <div class="mb-4">
+              <div class="flex justify-between mb-1">
+                <span class="font-medium">문화 차이</span>
+                <span class="font-medium">27.8%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress" style="width: 27.8%"></div>
+              </div>
+              <p class="text-sm mt-1">현지 습관과 문화 적응에 어려움 겪음</p>
+            </div>
+
+            <div class="mb-4">
+              <div class="flex justify-between mb-1">
+                <span class="font-medium">차별 경험</span>
+                <span class="font-medium">20.0%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress" style="width: 20%"></div>
+              </div>
+              <p class="text-sm mt-1">외국인이 차별 경험 보고</p>
+            </div>
+
+            <div class="mb-4">
+              <span class="font-medium">행정 절차</span>
+              <p class="text-sm mt-1">복잡한 비자, 은행, 주거 계약 등과 제한적인 외국어 지원</p>
+            </div>
+
+            <div class="mb-4">
+              <span class="font-medium">지원 시스템 부족</span>
+              <p class="text-sm mt-1">외국인을 위한 지원 시스템이 미흡하여 추가적인 개선이 필요합니다.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 주요 마일스톤 및 KPI 섹션 -->
+        <section id="revenue-model" class="section mb-16">
+          <h2 class="text-2xl font-bold mb-6 flex items-center">
+            <i class="fas fa-chart-line mr-3 text-blue-500"></i>주요 마일스톤 및 KPI
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="card p-5 rounded-lg kpi-card">
+              <h4 class="font-semibold mb-3">3개월 마일스톤</h4>
+              <ul class="space-y-2">
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                  <span>MVP 출시 완료</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                  <span>테스트 그룹 피드백 수집 및 개선</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                  <span>첫 50건 매칭 완료</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                  <span><strong>KPI:</strong> 사용자 만족도 70% 이상, 매칭 성공률 60% 이상</span>
+                </li>
+              </ul>
+            </div>
+            <div class="card p-5 rounded-lg kpi-card">
+              <h4 class="font-semibold mb-3">6개월 마일스톤</h4>
+              <ul class="space-y-2">
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                  <span>활성 사용자 300명 확보</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                  <span>월 150-200건 매칭 달성</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                  <span>핵심 기능 안정화</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                  <span><strong>KPI:</strong> 월 거래액 300-400만원, 사용자 재사용률 30% 이상</span>
+                </li>
+              </ul>
+            </div>
+            <div class="card p-5 rounded-lg kpi-card">
+              <h4 class="font-semibold mb-3">12개월 마일스톤</h4>
+              <ul class="space-y-2">
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                  <span>활성 사용자 1,000명 확보</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                  <span>수익 모델 검증 및 최적화</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                  <span>모바일 최적화 웹앱 출시</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                  <span><strong>KPI:</strong> 월 수익 300-600만원, 사용자 증가율 월 15% 이상</span>
+                </li>
+              </ul>
+            </div>
+            <div class="card p-5 rounded-lg kpi-card">
+              <h4 class="font-semibold mb-3">18개월 마일스톤</h4>
+              <ul class="space-y-2">
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                  <span>서울 전역 서비스 확대</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                  <span>초기 B2B 계약 체결</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                  <span>활성 사용자 3,000명 확보</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                  <span><strong>KPI:</strong> 월 수익 600-1,200만원, 구독 전환율 12% 이상</span>
+                </li>
+              </ul>
+            </div>
+            <div class="card p-5 rounded-lg kpi-card">
+              <h4 class="font-semibold mb-3">24개월 마일스톤</h4>
+              <ul class="space-y-2">
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                  <span>활성 사용자 5,000명 이상</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                  <span>주요 도시 서비스 확장</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                  <span>완전한 수익 모델 운영</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                  <span><strong>KPI:</strong> 월 수익 1,200-2,000만원, 본업 전환 검토</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 리스크 분석 및 대응 전략 섹션 -->
+        <section id="risk-analysis" class="section mb-16">
+          <h2 class="text-2xl font-bold mb-6 flex items-center">
+            <i class="fas fa-exclamation-triangle mr-3 text-blue-500"></i>리스크 분석 및 대응 전략
+          </h2>
+
+          <div class="mb-8">
+            <h3 class="text-xl font-semibold mb-4">핵심 리스크 및 대응 방안</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="card p-6 rounded-lg">
+                <div class="text-center mb-4">
+                  <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto">
+                    <i class="fas fa-store text-blue-500 text-2xl"></i>
+                  </div>
+                  <h4 class="font-semibold mt-3">시장 리스크</h4>
+                </div>
+                <ul class="space-y-3 text-sm">
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs mt-1 mr-2 text-blue-500"></i>
+                    <div>
+                      <p class="font-medium">경쟁사 진입/모방</p>
+                      <p>초기 시장 선점, 독창적 기능 지속 개발, 사용자 락인(Lock-in) 전략</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs mt-1 mr-2 text-blue-500"></i>
+                    <div>
+                      <p class="font-medium">수요 변동성</p>
+                      <p>다양한 고객 세그먼트 타겟팅, B2B 서비스로 안정적 수익원 확보</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs mt-1 mr-2 text-blue-500"></i>
+                    <div>
+                      <p class="font-medium">가격 경쟁</p>
+                      <p>품질 차별화, 프리미엄 서비스 개발, 가치 기반 가격 책정</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="card p-6 rounded-lg">
+                <div class="text-center mb-4">
+                  <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto">
+                    <i class="fas fa-microchip text-blue-500 text-2xl"></i>
+                  </div>
+                  <h4 class="font-semibold mt-3">기술 리스크</h4>
+                </div>
+                <ul class="space-y-3 text-sm">
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs mt-1 mr-2 text-blue-500"></i>
+                    <div>
+                      <p class="font-medium">AI 번역 품질</p>
+                      <p>인간 검토 백업 시스템, 지속적 AI 훈련, 번역 정확도 투명성 제공</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs mt-1 mr-2 text-blue-500"></i>
+                    <div>
+                      <p class="font-medium">플랫폼 안정성</p>
+                      <p>클라우드 인프라 이중화, 정기적 스트레스 테스트, 단계적 확장</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs mt-1 mr-2 text-blue-500"></i>
+                    <div>
+                      <p class="font-medium">데이터 보안</p>
+                      <p>강력한 암호화, 정기적 보안 감사, 개인정보 최소화 정책</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="card p-6 rounded-lg">
+                <div class="text-center mb-4">
+                  <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto">
+                    <i class="fas fa-cogs text-blue-500 text-2xl"></i>
+                  </div>
+                  <h4 class="font-semibold mt-3">운영 리스크</h4>
+                </div>
+                <ul class="space-y-3 text-sm">
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs mt-1 mr-2 text-blue-500"></i>
+                    <div>
+                      <p class="font-medium">헬퍼 품질 관리</p>
+                      <p>엄격한 헬퍼 선발 및 교육, 지속적 모니터링, 즉각적 피드백 시스템</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs mt-1 mr-2 text-blue-500"></i>
+                    <div>
+                      <p class="font-medium">고객 분쟁</p>
+                      <p>명확한 서비스 범위 정의, 에스크로 결제, 공정한 분쟁 해결 프로세스</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs mt-1 mr-2 text-blue-500"></i>
+                    <div>
+                      <p class="font-medium">운영 확장성</p>
+                      <p>자동화 시스템 구축, 단계적 인력 확충, 프로세스 최적화</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="card p-6 rounded-lg">
+                <div class="text-center mb-4">
+                  <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto">
+                    <i class="fas fa-balance-scale text-blue-500 text-2xl"></i>
+                  </div>
+                  <h4 class="font-semibold mt-3">법적 리스크</h4>
+                </div>
+                <ul class="space-y-3 text-sm">
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs mt-1 mr-2 text-blue-500"></i>
+                    <div>
+                      <p class="font-medium">규제 변화</p>
+                      <p>법률 자문 유지, 규제 모니터링, 컴플라이언스 시스템 구축</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs mt-1 mr-2 text-blue-500"></i>
+                    <div>
+                      <p class="font-medium">책임 소재</p>
+                      <p>명확한 이용약관, 서비스 범위 제한, 적절한 보험 가입</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs mt-1 mr-2 text-blue-500"></i>
+                    <div>
+                      <p class="font-medium">세금 이슈</p>
+                      <p>세무 전문가 자문, 투명한 세금 처리 시스템, 법규 준수</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-semibold mb-4">핵심 성공 요인</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="card p-5 rounded-lg">
+                <div class="flex items-center mb-3">
+                  <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-4">
+                    <i class="fas fa-users text-blue-500 text-xl"></i>
+                  </div>
+                  <h4 class="font-semibold text-lg">강력한 커뮤니티 구축</h4>
+                </div>
+                <ul class="space-y-2 text-sm ml-16">
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs mt-1 mr-2 text-blue-500"></i>
+                    <span>초기부터 활발한 사용자 커뮤니티를 구축하여 바이럴 성장 기반 마련</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs mt-1 mr-2 text-blue-500"></i>
+                    <span>시커-헬퍼 간 긍정적 상호작용 장려로 플랫폼 충성도 증가</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="card p-5 rounded-lg">
+                <div class="flex items-center mb-3">
+                  <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-4">
+                    <i class="fas fa-medal text-blue-500 text-xl"></i>
+                  </div>
+                  <h4 class="font-semibold text-lg">품질 중심 접근</h4>
+                </div>
+                <ul class="space-y-2 text-sm ml-16">
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs mt-1 mr-2 text-blue-500"></i>
+                    <span>서비스 품질에 집중하여 높은 사용자 만족도와 재사용률 확보</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs mt-1 mr-2 text-blue-500"></i>
+                    <span>헬퍼 선별 및 교육을 통한 일관된 서비스 품질 유지</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="card p-5 rounded-lg">
+                <div class="flex items-center mb-3">
+                  <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-4">
+                    <i class="fas fa-sync-alt text-blue-500 text-xl"></i>
+                  </div>
+                  <h4 class="font-semibold text-lg">적응형 성장 전략</h4>
+                </div>
+                <ul class="space-y-2 text-sm ml-16">
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs mt-1 mr-2 text-blue-500"></i>
+                    <span>사용자 피드백에 기반한 민첩한 서비스 개선 및 확장</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs mt-1 mr-2 text-blue-500"></i>
+                    <span>시장 반응에 따른 빠른 방향 조정 능력</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="card p-5 rounded-lg">
+                <div class="flex items-center mb-3">
+                  <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-4">
+                    <i class="fas fa-chart-pie text-blue-500 text-xl"></i>
+                  </div>
+                  <h4 class="font-semibold text-lg">효율적 자원 활용</h4>
+                </div>
+                <ul class="space-y-2 text-sm ml-16">
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs mt-1 mr-2 text-blue-500"></i>
+                    <span>노코드 도구와 AI 기술을 활용한 비용 효율적 개발 및 운영</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-circle text-xs mt-1 mr-2 text-blue-500"></i>
+                    <span>본업 병행 기간 동안 효율적 시간 관리 및 자원 최적화</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 결론 및 전략적 방향성 섹션 -->
+        <section id="conclusion" class="section mb-16">
+          <h2 class="text-2xl font-bold mb-6 flex items-center">
+            <i class="fas fa-flag-checkered mr-3 text-blue-500"></i>결론 및 전략적 방향성
+          </h2>
+
+          <div class="card p-6 rounded-lg mb-8">
+            <p class="mb-4">
+              LocaliK(로컬릭)은 AI 기술과 인간 헬퍼의 고유한 가치를 결합하여 한국에서 외국인이 겪는 다양한 어려움을 해결하는 혁신적인 플랫폼입니다.
+            </p>
+            <p class="mb-4">
+              기존의 통번역 서비스나 관광 가이드와 달리, LocaliK은 단순한 언어 번역을 넘어 문화적 맥락, 암묵지, 개인화된 경험, 지역 네트워크 등 현지인만이 제공할 수 있는 심층적 가치에 중점을 둔 서비스를 제공합니다.
+            </p>
+            <p>
+              초기에는 소자본으로 시작하여 본업을 병행하며 검증과 성장에 집중하고, 단계적으로 확장해 나가는 전략을 통해 리스크를 최소화할 것입니다.
+            </p>
+          </div>
+
+          <div class="bg-blue-50 dark:bg-blue-900 dark:bg-opacity-20 p-6 rounded-lg">
+            <h3 class="text-xl font-semibold mb-4">핵심 전략</h3>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+              <div class="card p-4 rounded-lg">
+                <div class="text-center">
+                  <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center mx-auto mb-2">
+                    <span class="font-bold">1</span>
+                  </div>
+                  <h4 class="font-medium">초기 시장 집중</h4>
+                  <p class="text-sm mt-2">이태원/용산 지역의 비즈니스 전문가 및 장기 거주 외국인을 우선 타겟으로 검증</p>
+                </div>
+              </div>
+              <div class="card p-4 rounded-lg">
+                <div class="text-center">
+                  <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center mx-auto mb-2">
+                    <span class="font-bold">2</span>
+                  </div>
+                  <h4 class="font-medium">AI와 인간의 시너지</h4>
+                  <p class="text-sm mt-2">AI 번역 기술의 효율성과 인간 헬퍼의 문화적 가치 결합</p>
+                </div>
+              </div>
+              <div class="card p-4 rounded-lg">
+                <div class="text-center">
+                  <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center mx-auto mb-2">
+                    <span class="font-bold">3</span>
+                  </div>
+                  <h4 class="font-medium">플랫폼 확장성</h4>
+                  <p class="text-sm mt-2">양면 마켓플레이스 모델을 통한 확장 가능한 비즈니스 구축</p>
+                </div>
+              </div>
+              <div class="card p-4 rounded-lg">
+                <div class="text-center">
+                  <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center mx-auto mb-2">
+                    <span class="font-bold">4</span>
+                  </div>
+                  <h4 class="font-medium">다각화된 수익 모델</h4>
+                  <p class="text-sm mt-2">거래 수수료, 구독 모델, 부가 서비스를 통한 안정적 수익 창출</p>
+                </div>
+              </div>
+              <div class="card p-4 rounded-lg">
+                <div class="text-center">
+                  <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center mx-auto mb-2">
+                    <span class="font-bold">5</span>
+                  </div>
+                  <h4 class="font-medium">단계적 성장</h4>
+                  <p class="text-sm mt-2">검증된 모델을 바탕으로 지역, 서비스, 언어 확장</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 text-center">
+            <p class="mb-4">
+              LocaliK은 단순한 비즈니스를 넘어, 한국에서 생활하는 외국인들의 삶의 질을 향상시키고 문화적 이해를 증진하는 사회적 가치를 창출하고자 합니다.
+            </p>
+            <p class="font-medium">
+              이러한 비전을 바탕으로, 18-24개월 내에 안정적인 수익 모델을 구축하고, 궁극적으로는 전업으로 전환할 수 있는 비즈니스로 발전시키는 것이 목표입니다.
+            </p>
+          </div>
+
+          <div class="mt-8 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <p class="text-sm text-gray-600 dark:text-gray-300 italic">
+              본 사업계획서는 현재 시장 상황과 예측을 바탕으로 작성되었으며, 실제 사업 진행 과정에서 시장 반응과 사용자 피드백에 따라 유연하게 조정될 수 있습니다. 무엇보다 사용자 중심의 서비스 개발과 지속적인 가치 창출에 중점을 두고 사업을 추진해 나갈 것입니다.
+            </p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- 푸터 -->
+  <footer class="bg-gray-100 dark:bg-gray-800 py-8">
+    <div class="container mx-auto px-4">
+      <div class="text-center">
+        <div class="flex items-center justify-center space-x-3 mb-4">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-green-400 flex items-center justify-center text-white font-bold">L</div>
+          <h3 class="text-lg font-bold">LocaliK</h3>
+        </div>
+        <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">AI 기반 외국인-현지인 매칭 플랫폼</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">&copy; 2025 LocaliK. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 다크 모드 토글
+    document.addEventListener('DOMContentLoaded', () => {
+      const darkModeToggle = document.getElementById('darkModeToggle');
+      const body = document.body;
+      
+      // 시스템 설정 확인
+      const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+      // 저장된 설정 확인
+      const savedMode = localStorage.getItem('darkMode');
+      
+      // 초기 모드 설정
+      if (savedMode) {
+        body.className = savedMode === 'dark' ? 'dark-mode' : 'light-mode';
+      } else {
+        body.className = 'dark-mode-auto';
+      }
+      
+      // 토글 버튼 이벤트
+      darkModeToggle.addEventListener('click', () => {
+        if (body.classList.contains('dark-mode-auto')) {
+          body.classList.remove('dark-mode-auto');
+          body.classList.add('light-mode');
+          localStorage.setItem('darkMode', 'light');
+        } else if (body.classList.contains('light-mode')) {
+          body.classList.remove('light-mode');
+          body.classList.add('dark-mode');
+          localStorage.setItem('darkMode', 'dark');
+        } else {
+          body.classList.remove('dark-mode');
+          body.classList.add('dark-mode-auto');
+          localStorage.removeItem('darkMode');
+        }
+      });
+      
+      // 다크 모드 아이콘 표시
+      const updateDarkModeIcon = () => {
+        const icons = darkModeToggle.querySelectorAll('i');
+        if (body.classList.contains('dark-mode') || 
+            (body.classList.contains('dark-mode-auto') && prefersDarkMode)) {
+          icons[0].classList.add('hidden');
+          icons[1].classList.remove('hidden');
+        } else {
+          icons[0].classList.remove('hidden');
+          icons[1].classList.add('hidden');
+        }
+      };
+      
+      updateDarkModeIcon();
+      darkModeToggle.addEventListener('click', updateDarkModeIcon);
+      
+      // 시스템 테마 변경 감지
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateDarkModeIcon);
+    });
+    
+    // 메뉴 항목 활성화 및 스크롤
+    document.addEventListener('DOMContentLoaded', () => {
+      const menuItems = document.querySelectorAll('.menu-item');
+      const sections = document.querySelectorAll('.section');
+      
+      // 메뉴 클릭 이벤트
+      menuItems.forEach(item => {
+        item.addEventListener('click', () => {
+          const targetId = item.getAttribute('data-target');
+          const targetSection = document.getElementById(targetId);
+          
+          if (targetSection) {
+            // 스크롤 이동
+            window.scrollTo({
+              top: targetSection.offsetTop - 80,
+              behavior: 'smooth'
+            });
+            
+            // 메뉴 활성화
+            menuItems.forEach(mi => mi.classList.remove('active'));
+            item.classList.add('active');
+          }
+        });
+      });
+      
+      // 스크롤 위치에 따른 메뉴 활성화
+      const activateMenuOnScroll = () => {
+        const scrollPosition = window.scrollY + 100;
+        
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop - 100;
+          const sectionBottom = sectionTop + section.offsetHeight;
+          const sectionId = section.getAttribute('id');
+          
+          if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+            menuItems.forEach(mi => {
+              mi.classList.remove('active');
+              if (mi.getAttribute('data-target') === sectionId) {
+                mi.classList.add('active');
+              }
+            });
+          }
+        });
+      };
+      
+      window.addEventListener('scroll', activateMenuOnScroll);
+      activateMenuOnScroll(); // 초기 로드 시 활성화
+    });
+    
+    // 섹션 애니메이션
+    document.addEventListener('DOMContentLoaded', () => {
+      const sections = document.querySelectorAll('.section');
+      
+      const showSections = () => {
+        sections.forEach(section => {
+          const sectionTop = section.getBoundingClientRect().top;
+          const windowHeight = window.innerHeight;
+          
+          if (sectionTop < windowHeight * 0.8) {
+            section.classList.add('visible');
+          }
+        });
+      };
+      
+      window.addEventListener('scroll', showSections);
+      showSections(); // 초기 로드 시 보이는 섹션 표시
+    });
+    
+    // 프로그레스 바 애니메이션
+    document.addEventListener('DOMContentLoaded', () => {
+      const progressBars = document.querySelectorAll('.progress');
+      
+      const animateProgressBars = () => {
+        progressBars.forEach(bar => {
+          const parent = bar.parentElement;
+          if (parent.getBoundingClientRect().top < window.innerHeight * 0.8) {
+            setTimeout(() => {
+              bar.style.width = bar.style.width || bar.getAttribute('data-width') || '0%';
+            }, 200);
+          }
+        });
+      };
+      
+      window.addEventListener('scroll', animateProgressBars);
+      animateProgressBars(); // 초기 로드 시 실행
+    });
+  </script>
+</body>
+</html>
